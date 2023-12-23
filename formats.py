@@ -18,3 +18,8 @@ def format_spaces(phone_number):
     phone_number = ("+" + phone_number[:1] + " (" + phone_number[1:4] + ")" + " " + phone_number[4:7] + " " +
                     phone_number[7:9] + " " + phone_number[9:11])
     return str(phone_number)
+
+
+# +79535315853
+def format_plus(phone_number):
+    return phone_number[1:12]
