@@ -32,4 +32,3 @@ def format_plus_8(phone_number):
     num[0] = "8"
     num = "".join(num)
     return str(num)
-
