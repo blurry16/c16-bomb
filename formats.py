@@ -20,6 +20,16 @@ def format_spaces(phone_number):
     return str(phone_number)
 
 
+# +7 953 531 5853
+def format_spaces_without_braces(phone_number):
+    phone_number = phone_number.replace("+", "").replace(" ", "").replace("-", "")
+    if phone_number.startswith("("):
+        phone_number = phone_number[1:]
+    phone_number = ("+" + phone_number[:1] + " " + phone_number[1:4] + " " + phone_number[4:7] + " " +
+                    phone_number[7:11])
+    return str(phone_number)
+
+
 # 79535315853
 def format_plus(phone_number):
     return phone_number[1:12]

