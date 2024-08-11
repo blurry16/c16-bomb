@@ -41,19 +41,19 @@ def format_plus_8(phone_number: str) -> str:
 
 faker = Faker(locale="ru")
 
-with open("cfg.json", "r", encoding="UTF-8") as config:
+with open("config.json", "r", encoding="UTF-8") as config:
     cfg = json.load(config)
 
 if cfg["user-agent"] == "":
-    print("Would you like to use a custom user agent? You can change it whenever you want in cfg.json file.\n"
+    print("Would you like to use a custom user agent? You can change it whenever you want in config.json file.\n"
           "Put \"__random__\" in there, if you want to use random user agent.")
     a = input("User agent (leave empty for random): ")
     cfg["user-agent"] = "__random__" if a == "" else a
-    with open("cfg.json", "w", encoding="UTF-8") as config:
+    with open("config.json", "w", encoding="UTF-8") as config:
         json.dump(cfg, config, indent=4)
     del a
 
-with open("cfg.json", "r", encoding="UTF-8") as config:
+with open("config.json", "r", encoding="UTF-8") as config:
     cfg = json.load(config)
 while True:
 
