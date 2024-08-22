@@ -1,7 +1,4 @@
-import json
-import os
 import time
-from pathlib import Path
 
 import requests
 from faker import Faker
@@ -43,31 +40,31 @@ def format_plus_8(phone_number: str) -> str:
 
 faker = Faker(locale="ru")
 
-CONFIGPATH = Path(f"{os.curdir}/config.json")
-
-if CONFIGPATH.exists():
-
-    with open(CONFIGPATH, "r", encoding="UTF-8") as config:
-        cfg = json.load(config)
-
-else:
-    open(CONFIGPATH, "x").close()
-
-    with open(CONFIGPATH, "w", encoding="UTF-8") as config:
-        cfg = {"user-agent": ""}
-        json.dump(cfg, config)
-
-if cfg["user-agent"] == "":
-    print("Would you like to use a custom user agent? You can change it whenever you want in config.json file.\n"
-          "Put \"__random__\" in there, if you want to use random user agent.")
-    a = input("User agent (leave empty for random): ")
-    cfg["user-agent"] = "__random__" if a == "" else a
-    with open("config.json", "w", encoding="UTF-8") as config:
-        json.dump(cfg, config, indent=4)
-    del a
-
-with open("config.json", "r", encoding="UTF-8") as config:
-    cfg = json.load(config)
+# CONFIGPATH = Path(f"{os.curdir}/config.json")
+#
+# if CONFIGPATH.exists():
+#
+#     with open(CONFIGPATH, "r", encoding="UTF-8") as config:
+#         cfg = json.load(config)
+#
+# else:
+#     open(CONFIGPATH, "x").close()
+#
+#     with open(CONFIGPATH, "w", encoding="UTF-8") as config:
+#         cfg = {"user-agent": ""}
+#         json.dump(cfg, config)
+#
+# if cfg["user-agent"] == "":
+#     print("Would you like to use a custom user agent? You can change it whenever you want in config.json file.\n"
+#           "Put \"__random__\" in there, if you want to use random user agent.")
+#     a = input("User agent (leave empty for random): ")
+#     cfg["user-agent"] = "__random__" if a == "" else a
+#     with open("config.json", "w", encoding="UTF-8") as config:
+#         json.dump(cfg, config, indent=4)
+#     del a
+#
+# with open("config.json", "r", encoding="UTF-8") as config:
+#     cfg = json.load(config)
 while True:
 
     print("""
@@ -99,11 +96,11 @@ while True:
 
     for i in range(RANGE):
         print(f"Starting cycle {i}")
-        if cfg["user-agent"].lower() == "__random__" or cfg["user-agent"] == "":
-            HEADERS = {'user_agent': faker.user_agent()}
-            print(f"{HEADERS['user_agent']} was selected as user agent for this cycle")
-        else:
-            HEADERS = {'user_agent': cfg["user-agent"]}
+        # if cfg["user-agent"].lower() == "__random__" or cfg["user-agent"] == "":
+        HEADERS = {'user_agent': faker.user_agent()}
+        print(f"{HEADERS['user_agent']} was selected as user agent for this cycle")
+        # else:
+        #     HEADERS = {'user_agent': cfg["user-agent"]}
         try:
             response = requests.post('https://my.telegram.org/auth/send_password',
                                      headers=HEADERS, data={'phone': NUMBER}, timeout=5.05)
