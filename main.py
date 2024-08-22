@@ -1,5 +1,7 @@
 import json
+import os
 import time
+from pathlib import Path
 
 import requests
 from faker import Faker
@@ -41,8 +43,19 @@ def format_plus_8(phone_number: str) -> str:
 
 faker = Faker(locale="ru")
 
-with open("config.json", "r", encoding="UTF-8") as config:
-    cfg = json.load(config)
+CONFIGPATH = Path(f"{os.curdir}/config.json")
+
+if CONFIGPATH.exists():
+
+    with open(CONFIGPATH, "r", encoding="UTF-8") as config:
+        cfg = json.load(config)
+
+else:
+    open(CONFIGPATH, "x").close()
+
+    with open(CONFIGPATH, "w", encoding="UTF-8") as config:
+        cfg = {"user-agent": ""}
+        json.dump(cfg, config)
 
 if cfg["user-agent"] == "":
     print("Would you like to use a custom user agent? You can change it whenever you want in config.json file.\n"
