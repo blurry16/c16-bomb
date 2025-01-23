@@ -35,7 +35,7 @@ def format_plus(phone_number: str) -> str:
 
 def format_plus_8(phone_number: str) -> str:
     """89535315853"""
-    return "8" + phone_number[1:12]
+    return "8" + phone_number[2:12]
 
 
 faker = Faker(locale="ru")
