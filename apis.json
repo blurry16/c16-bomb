@@ -1,0 +1,26 @@
+{
+  "telegram.org": {
+    "url": "https://my.telegram.org/auth/send_password",
+    "format_type": "a",
+    "phone_key": "phone",
+    "data": {
+      "phone": "__placeholder__"
+    }
+  },
+  "teledoctor24.ru": {
+    "url": "https://new-api.els24.com/api/v1/register-by-phone",
+    "format_type": "g",
+    "phone_key": "phone",
+    "data": {
+      "phone": "__placeholder__"
+    }
+  },
+  "ok.ru": {
+    "url": "https://ok.ru/dk?cmd=AnonymRegistrationEnterPhone&st.cmd=anonymRegistrationEnterPhone&st.cmd=anonymRegistrationEnterPhone",
+    "format_type": "a",
+    "phone_key": "st.r.phone",
+    "data": {
+      "st.r.phone": "__placeholder__"
+    }
+  }
+}
