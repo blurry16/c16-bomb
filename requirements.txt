@@ -1,2 +1,16 @@
-requests~=2.31.0
+bs4~=0.0.2
+beautifulsoup4~=4.13.3
+soupsieve~=2.6
+typing_extensions~=4.12.2
+pip~=23.2.1
+wheel~=0.41.2
 Faker~=26.3.0
+python-dateutil~=2.9.0.post0
+setuptools~=68.2.0
+certifi~=2023.11.17
+six~=1.16.0
+idna~=3.6
+urllib3~=2.1.0
+charset-normalizer~=3.3.2
+fake-useragent~=1.4.0
+requests~=2.32.0

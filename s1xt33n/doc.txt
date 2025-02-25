@@ -11,5 +11,5 @@ g - +7 953 531-58-53
 
 upd: beta1.0.0
 
-possible arguments:
+possible с16.py arguments:
 --no-proxy: wont use proxy XD
