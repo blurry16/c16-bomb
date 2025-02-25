@@ -1,4 +1,12 @@
-__version__ = "beta1.0.0"
+"""
+This is what is under the c16's hood
+
+This package contains every function and method that is needed in order to make c-sixteen work.
+
+Licensed under MIT, Copyright (c) 2025 blurry16
+"""
+
+__version__ = "beta1.1.0"
 
 import os
 from pathlib import Path
@@ -24,8 +32,7 @@ logo = """
    ░  ▒      ░ ░▒  ░ ░ ▒ ░░░   ░▒ ░    ░     ░ ░  ░ ░ ░  ░░ ░░   ░ ▒░
  ░           ░  ░  ░   ▒ ░ ░    ░    ░         ░      ░      ░   ░ ░ 
  ░ ░               ░   ░   ░    ░              ░  ░   ░  ░         ░ 
- ░                                                                   
-"""
+ ░                                                                   """
 
 
 class PhoneNumber:
